@@ -1,5 +1,5 @@
 def main():
-    print("Hello from filemanager!")
+    print("Hello from remote!")
 
 
 if __name__ == "__main__":
