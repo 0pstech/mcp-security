@@ -17,7 +17,7 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid or missing token",
-            headers={"WWW-Authenticate": "Bearer"},
+            headers={"Authorization": "Bearer"},
         )
     return token
 
