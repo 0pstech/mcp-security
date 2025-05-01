@@ -1,0 +1,10 @@
+{
+    "mcpServers": {
+      "filesystem": {
+        "command": "/Users/j/Desktop/develop/mcp-security/server/filesystem/.venv/bin/python",
+        "args": [
+          "/Users/j/Desktop/develop/mcp-security/server/filesystem/filesystem.py"
+        ]
+      }
+    }
+  }
