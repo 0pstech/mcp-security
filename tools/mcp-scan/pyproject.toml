@@ -1,0 +1,58 @@
+[project]
+name = "mcp-scan"
+version = "0.1.6"
+description = "MCP Scan tool"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "mcp[cli]>=1.6.0",
+    "rich>=14.0.0",
+    "aiofiles>=23.1.0",
+    "types-aiofiles",
+    "pyjson5>=1.6.8",
+    "pydantic>=2.11.2",
+    "lark>=1.1.9",
+    "psutil>=5.9.0",
+    "regex>=2024.11.6",
+    "aiohttp>=3.11.16",
+]
+
+[project.scripts]
+mcp-scan = "mcp_scan.cli:main"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["mcp_scan"]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.4.0",
+    "anyio>=4.0.0"
+]
+dev = [
+    "shiv>=1.0.4",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+
+
+[tool.black]
+line-length = 120
+target-version = ["py310"]
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 120

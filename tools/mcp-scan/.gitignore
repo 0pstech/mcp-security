@@ -1,0 +1,40 @@
+__pycache__
+uv.lock
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.egg-info
+*.egg
+*.whl
+*.db
+messages.json
+policy.txt
+response.json
+
+# Build artifacts
+dist/
+build/
+
+# Shiv artifacts
+*.pyz
+*.pyz.unzipped
+
+# npm artifacts
+npm/dist/
+npm/node_modules/
+npm/package-lock.json
+npm/.npm/
+npm/*.tgz
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+src/mcp_scan/todo.md
