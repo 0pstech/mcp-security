@@ -122,3 +122,7 @@ private_*
 # System
 Thumbs.db
 Desktop.ini
+
+
+# node
+.node_modules/
