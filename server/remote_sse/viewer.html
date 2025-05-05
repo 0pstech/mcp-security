@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실시간 로그 뷰어</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #1e1e1e;
+            color: #cfcfcf;
+            padding: 20px;
+        }
+        #logs {
+            white-space: pre-wrap;
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #282828;
+            height: 80vh;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body>
+    <h2>Claude 실시간 로그 뷰어</h2>
+    <select id="logList"></select>
+    <div id="logs">연결 중...</div>
+
+    <script>
+        const logContainer = document.getElementById('logs');
+        const logList = document.getElementById('logList');
+        let eventSource = null;
+        let currentFile = null;
+        let firstLog = true;
+
+        async function fetchLogList() {
+            try {
+                const res = await fetch('http://localhost:3001/logs');
+                const files = await res.json();
+                const prev = logList.value;
+                logList.innerHTML = '';
+                files.forEach(f => {
+                    const opt = document.createElement('option');
+                    opt.value = f;
+                    opt.textContent = f;
+                    logList.appendChild(opt);
+                });
+                // 선택 유지, 없으면 첫 번째 선택
+                if (files.length) {
+                    logList.value = prev && files.includes(prev) ? prev : files[0];
+                    if (currentFile !== logList.value) {
+                        connectSSE(logList.value);
+                    }
+                }
+            } catch (e) {
+                logContainer.textContent = '로그 목록을 불러올 수 없습니다.\n';
+            }
+        }
+
+        function connectSSE(filename) {
+            if (eventSource) eventSource.close();
+            logContainer.textContent = '연결 중...';
+            firstLog = true;
+            eventSource = new EventSource(`http://localhost:3001/sse?file=${encodeURIComponent(filename)}`);
+            eventSource.addEventListener('log', event => {
+                if (typeof event.data !== 'undefined' && event.data !== null && event.data !== '') {
+                    if (firstLog) {
+                        logContainer.textContent = '';
+                        firstLog = false;
+                    }
+                    logContainer.textContent += event.data + '\n';
+                    logContainer.scrollTop = logContainer.scrollHeight;
+                }
+            });
+            eventSource.addEventListener('error', event => {
+                const errorMsg = (typeof event.data !== 'undefined' && event.data !== null && event.data !== '') ? event.data : '알 수 없는 오류';
+                logContainer.textContent += '[ERROR]: ' + errorMsg + '\n';
+            });
+            eventSource.onerror = function(e) {
+                logContainer.textContent += '서버 연결에 문제가 발생했습니다.\n';
+                eventSource.close();
+            };
+            currentFile = filename;
+        }
+
+        logList.addEventListener('change', () => {
+            connectSSE(logList.value);
+        });
+
+        // 최초 목록 및 주기적 갱신
+        fetchLogList();
+        setInterval(fetchLogList, 5000);
+    </script>
+</body>
+</html>

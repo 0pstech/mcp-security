@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 # Initialize FastMCP server
 mcp = FastMCP("remote")
-API_URL = "http://localhost:8000/"
+API_URL = "http://localhost:8080/"
 
 
 def get_token():
@@ -49,6 +49,7 @@ if __name__ == "__main__":
     logger.info("Starting remote MCP server...")
     try:
         mcp.run(transport='stdio')
+
     except Exception as e:
         logger.error(f"Failed to start server: {str(e)}", exc_info=True)
         sys.exit(1)

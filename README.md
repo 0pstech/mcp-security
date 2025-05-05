@@ -3,6 +3,7 @@
  - npx (nodejs)
  - vscode
  - claude
+ - docker-desktop
 
 # folders
  - client: Contains example MCP client programs

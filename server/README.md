@@ -13,3 +13,6 @@ uv add "mcp[cli]" httpx
 
 # Create our server file
 touch project_name.py
+
+# run server
+python project_name.py

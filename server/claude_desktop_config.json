@@ -1,0 +1,25 @@
+{
+    "mcpServers": {
+          "filesystem": {
+              "command": "/Users/j/Desktop/develop/mcp-security/server/filesystem/.venv/bin/python",
+              "args": [
+                  "/Users/j/Desktop/develop/mcp-security/server/filesystem/filesystem.py"
+              ]
+          },
+          "mysql": {
+              "command": "/Users/j/Desktop/develop/mcp-security/server/mysql/.venv/bin/python",
+              "args": [
+                  "/Users/j/Desktop/develop/mcp-security/server/mysql/main.py"
+              ]
+          },
+          "remote": {
+              "command": "/Users/j/Desktop/develop/mcp-security/server/remote/.venv/bin/python",
+              "args": [
+                  "/Users/j/Desktop/develop/mcp-security/server/remote/main.py"
+              ],
+              "env": {
+                  "REMOTE_API_TOKEN": "QeTJc-g7_VuFCeOq-w3V-PVhAa47BN6DbDuE9q2Ehog"
+              }
+          }
+    }
+  }
