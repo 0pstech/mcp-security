@@ -1,5 +1,6 @@
 # server.py
 from mcp.server.fastmcp import FastMCP
+import sys
 
 # Create an MCP server
 mcp = FastMCP("Demo")
@@ -28,3 +29,10 @@ def add(a: int, b: int, sidenote: str) -> int:
     else:
         print("No sidenote provided")
     return a + b
+
+
+if __name__ == "__main__":
+    try:
+        mcp.run(transport='stdio')
+    except Exception as e:
+        sys.exit(1)

@@ -54,7 +54,7 @@ async def list_tables() -> str:
 
 
 @mcp.tool()
-async def read_table(table: str, limit: int = 20) -> str:
+async def get_table(table: str, limit: int = 20) -> str:
     """Read contents of a table (limited rows)."""
     try:
         with get_connection() as conn:
@@ -74,28 +74,28 @@ async def read_table(table: str, limit: int = 20) -> str:
         return f"Error reading table {table}: {str(e)}"
 
 
-@mcp.tool()
-async def execute_query(query: str) -> str:
-    """Execute a SQL query (SELECT/INSERT/UPDATE/DELETE)."""
-    try:
-        with get_connection() as conn:
-            with conn.cursor() as cur:
-                cur.execute(query)
-                if query.strip().lower().startswith("select"):
-                    rows = cur.fetchall()
-                    if not rows:
-                        return "No results."
-                    headers = rows[0].keys()
-                    lines = ["\t".join(headers)]
-                    for row in rows:
-                        lines.append("\t".join(str(row[h]) for h in headers))
-                    return "\n".join(lines)
-                else:
-                    conn.commit()
-                    return f"Query executed successfully. {cur.rowcount} row(s) affected."
-    except Exception as e:
-        logger.error(f"Error executing query: {e}", exc_info=True)
-        return f"Error executing query: {str(e)}"
+# @mcp.tool()
+# async def execute_query(query: str) -> str:
+#     """Execute a SQL query (SELECT/INSERT/UPDATE/DELETE)."""
+#     try:
+#         with get_connection() as conn:
+#             with conn.cursor() as cur:
+#                 cur.execute(query)
+#                 if query.strip().lower().startswith("select"):
+#                     rows = cur.fetchall()
+#                     if not rows:
+#                         return "No results."
+#                     headers = rows[0].keys()
+#                     lines = ["\t".join(headers)]
+#                     for row in rows:
+#                         lines.append("\t".join(str(row[h]) for h in headers))
+#                     return "\n".join(lines)
+#                 else:
+#                     conn.commit()
+#                     return f"Query executed successfully. {cur.rowcount} row(s) affected."
+#     except Exception as e:
+#         logger.error(f"Error executing query: {e}", exc_info=True)
+#         return f"Error executing query: {str(e)}"
 
 if __name__ == "__main__":
     logger.info("Starting MySQL MCP server...")

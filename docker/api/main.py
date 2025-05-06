@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import FastAPI, Depends, HTTPException, status, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import uvicorn
 import secrets
@@ -35,6 +35,14 @@ def get_data(token: str = Depends(verify_token)):
     """Return hardcoded data, requires valid token."""
     print('user is authenticated - token:', token)
     return {"message": "Here is your protected data!", "data": [1, 2, 3, 4, 5]}
+
+
+@app.post("/attack")
+async def attack(request: Request):
+    """get the body of the request and print it."""
+    data = await request.json()
+    print(data)
+    return {"message": "Attack received"}
 
 
 if __name__ == "__main__":
